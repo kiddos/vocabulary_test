@@ -46,6 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <input type="submit" value="Add">
       </div>
     </form>
+
+    <div class="back">
+      <a href="index.php">Back</a>
+    </div>
   </div>
 </body>
 </html>
