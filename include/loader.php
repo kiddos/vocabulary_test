@@ -1,9 +1,19 @@
 <?php
 
+function loadFile(string $fpath) {
+  $content = '';
+  if (file_exists($fpath)) {
+    $f = fopen($fpath, 'r');
+    $content = fread($f, filesize($fpath));
+    fclose($f);
+  }
+  return $content;
+}
+
 function loadData() {
   $dir = new DirectoryIterator('./questions');
   foreach ($dir as $fileinfo) {
-    if (!$fileinfo->isDot() and $fileinfo->isFile()) {
+    if (!$fileinfo->isDot() && $fileinfo->isFile()) {
       $fpath = './questions/' . $fileinfo->getFilename();
       $f = fopen($fpath, 'r');
       $content = fread($f, filesize($fpath));
@@ -14,16 +24,29 @@ function loadData() {
   return null;
 }
 
+function getAllFiles() {
+  $files = array();
+  $dir = new DirectoryIterator('./questions');
+  foreach ($dir as $fileinfo) {
+    if (!$fileinfo->isDot() && $fileinfo->isFile()) {
+      array_push($files, $fileinfo->getFilename());
+    }
+  }
+  return $files;
+}
+
 function writeData(array $words, string $path) {
   $f = fopen($path, 'w');
-  for ($i = 0; $i < sizeof($words); $i++) {
-    fwrite($f, $words[i]->w . "\n");
-    fwrite($f, $words[i]->t . "\n");
-    fwrite($f, $words[i]->definition . "\n");
-    fwrite($f, $words[i]->sentence . "\n");
-    fwrite($f, "\n");
+  if ($f) {
+    for ($i = 0; $i < sizeof($words); $i++) {
+      fwrite($f, $words[$i]->w . "\n");
+      fwrite($f, $words[$i]->t . "\n");
+      fwrite($f, $words[$i]->definition . "\n");
+      fwrite($f, $words[$i]->sentence . "\n");
+      fwrite($f, "\n");
+    }
+    fclose($f);
   }
-  fclose($f);
 }
 
 class Word {
@@ -36,9 +59,8 @@ class Word {
   }
 }
 
-function loadWords() {
+function loadWords(string $content) {
   $words = array();
-  $content = loadData();
   if ($content != null)  {
     $raw_data = explode("\n\n", $content);
     foreach ($raw_data as $entry) {
@@ -49,8 +71,17 @@ function loadWords() {
         array_push($words, $w);
       }
     }
-    return $words;
   }
+  return $words;
+}
+
+function containsWord(string $word, array $words) {
+  for ($i = 0; $i < sizeof($words); $i++) {
+    if ($words[$i]->w == word) {
+      return true;
+    }
+  }
+  return false;
 }
 
 class MultipleChoiceQuestion {
@@ -68,7 +99,7 @@ function loadMultipleChoiceQuestions(array $words, int $num,
   int $num_choice) {
   $questions = array();
   $added = array();
-  for ($i = 0; $i < $num; $i++) {
+  for ($i = 0; $i < min($num, sizeof($words)); $i++) {
     $word_index = rand(0, sizeof($words) - 1);
     while (in_array($word_index, $added)) {
       $word_index = rand(0, sizeof($words) - 1);
