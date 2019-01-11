@@ -58,11 +58,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   exit();
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $n = (int)$_POST['num-questions'];
-  if ($n > 0) {
-    $content = loadData();
+  $collection = $_POST['collection'];
+  $num_choice = 4;
+  if ($n > 0 && $collection != '') {
+    $content = loadFile('./questions/' . $collection);
     $words = loadWords($content);
-    $mq = loadMultipleChoiceQuestions($words, $n, 4);
-    renderMultipleChoiceQuestions($mq);
+    if (sizeof($words) > $num_choice) {
+      $mq = loadMultipleChoiceQuestions($words, $n, $num_choice);
+      renderMultipleChoiceQuestions($mq);
+    } else {
+      echo '<h4>Not enough Data for composing the test</h4>';
+    }
+  } else {
+    echo '<h4>Data not collected</h4>';
   }
 }
 
