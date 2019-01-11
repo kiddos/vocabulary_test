@@ -36,6 +36,10 @@ function getAllFiles() {
 }
 
 function writeData(array $words, string $path) {
+  if (!file_exists('./questions')) {
+    mkdir('questions', 0777);
+  }
+
   $f = fopen($path, 'w');
   if ($f) {
     for ($i = 0; $i < sizeof($words); $i++) {
