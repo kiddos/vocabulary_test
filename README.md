@@ -31,3 +31,5 @@ Quick APP for testing vocabulary
   These daily updates were designed to help readers keepabreastof the markets...
 
   ```
+
+<b>Note: Keep the question folder permission writable for all users</b>
