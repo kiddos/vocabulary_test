@@ -88,7 +88,7 @@ function containsWord(string $word, array $words) {
   return false;
 }
 
-class MultipleChoiceQuestion {
+class DefinitionQuestion {
   public function __construct(Word $word, array $choice) {
     shuffle($choice);
     $index = rand(0, sizeof($choice));
@@ -99,7 +99,7 @@ class MultipleChoiceQuestion {
   }
 }
 
-function loadMultipleChoiceQuestions(array $words, int $num,
+function loadDefinitionQuestions(array $words, int $num,
   int $num_choice) {
   $questions = array();
   $added = array();
@@ -118,7 +118,7 @@ function loadMultipleChoiceQuestions(array $words, int $num,
       array_push($choices, $words[$choice_index]->definition);
     }
 
-    $q = new MultipleChoiceQuestion(
+    $q = new DefinitionQuestion(
       $words[$word_index], $choices);
     array_push($questions, $q);
     array_push($added, $word_index);

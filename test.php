@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $content = loadFile('./questions/' . $collection);
     $words = loadWords($content);
     if (sizeof($words) > $num_choice) {
-      $mq = loadMultipleChoiceQuestions($words, $n, $num_choice);
+      $mq = loadDefinitionQuestions($words, $n, $num_choice);
       renderMultipleChoiceQuestions($mq);
     } else {
       echo '<h4>Not enough Data for composing the test</h4>';
