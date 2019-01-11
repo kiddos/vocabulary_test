@@ -11,6 +11,9 @@ URL = 'https://gre.economist.com/gre-advice/gre-vocabulary/which-words-study/mos
 r = requests.get(URL)
 soup = BeautifulSoup(r.text)
 
+if not os.path.isdir('questions'):
+  os.mkdir('questions')
+
 
 with open(os.path.join('questions', 'question-set-01.txt'), 'w') as f:
   for item in soup.select('.article-body p'):
