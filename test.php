@@ -59,7 +59,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $n = (int)$_POST['num-questions'];
   if ($n > 0) {
-    $words = loadWords();
+    $content = loadData();
+    $words = loadWords($content);
     $mq = loadMultipleChoiceQuestions($words, $n, 4);
     renderMultipleChoiceQuestions($mq);
   }
