@@ -8,13 +8,14 @@
   <link rel="shortcut icon" type="image/png" href="favicon.png"/>
 </head>
 <body>
-<div class="content">
+  <div class="content">
+    <h3 class="header">Multiple Choices</h3>
+
 <?php
 
 require 'include/loader.php';
 
 function renderQuestions($questions) {
-  echo '<h3 class="section-header">Multiple Choices</h3>';
   echo '<p class="description">Choose the correct definition</p>';
   echo '<div class="questions">';
   for ($i = 0; $i < sizeof($questions); $i++) {
@@ -84,17 +85,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
 ?>
 
-  <div class="result">
-    <button id="submit">Submit</button>
-    <div id="correct" class="correct"></div>
-    <div id="not-done" class="hidden">Questions are not all done</div>
-  </div>
+    <div class="result">
+      <button id="submit">Submit</button>
+      <div id="correct" class="correct"></div>
+      <div id="not-done" class="hidden">Questions are not all done</div>
+    </div>
 
-  <div class="back">
-    <a href="index.php">Back</a>
+    <div class="back">
+      <a href="index.php">Back</a>
+    </div>
   </div>
-
-</div>
-<script src="test.js"></script>
+  <script src="test.js"></script>
 </body>
 </html>
