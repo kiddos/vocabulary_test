@@ -11,9 +11,16 @@
   <div class="content">
     <h1 class="header">Vocabulary Tests</h1>
     <form action="test.php" method="POST" class="form">
-      <div class="collection">
+      <div class="option choice">
+        <span>Choose Test Type:</span>
+        <select id="test-type" name="test-type">
+          <option value="definition">Find Definition</option>
+          <option value="sentence">Fit Sentence</option>
+        </select>
+      </div>
+      <div class="option choice">
         <span>Choose Collection: </span>
-        <select class="item" name="collection" id="collection">
+        <select name="collection" id="collection">
           <?php 
           require 'include/loader.php';
 
@@ -26,7 +33,7 @@
           ?>
         </select>
       </div>
-      <div class="questions">
+      <div class="option questions">
         <span>Number of Questions: </span>
         <input id="num-questions" name="num-questions" type="number" value="10">
       </div>
