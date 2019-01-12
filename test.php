@@ -13,15 +13,15 @@
 
 require 'include/loader.php';
 
-function renderMultipleChoiceQuestions($questions) {
+function renderQuestions($questions) {
   echo '<h3 class="section-header">Multiple Choices</h3>';
   echo '<p class="description">Choose the correct definition</p>';
   echo '<div class="questions">';
   for ($i = 0; $i < sizeof($questions); $i++) {
     $q = $questions[$i];
 
-    echo '<div class="question">';
-    $w = $q->word->w;
+    echo '<div class="question-item">';
+    $w = $q->question;
     echo "<select id=\"$i\" name=\"$w\" class=\"choices\">";
     echo "<option value=\"-1\">None</option>";
     echo "<option value=\"0\">1</option>";
@@ -33,12 +33,12 @@ function renderMultipleChoiceQuestions($questions) {
     $answer = $q->answer;
     echo "<span class=\"answer\">$answer</span>";
 
-    echo '<div class="word">';
+    echo '<div class="question">';
     $qi = $i + 1;
     echo "<span class=\"num\">$qi.</span>";
 
-    $w = $q->word->w;
-    echo "<span class=\"word\">$w</span>";
+    $w = $q->question;
+    echo "<span class=\"question\">$w</span>";
     echo '</div>';
 
     for ($j = 0; $j < sizeof($q->choices); $j++) {
@@ -65,8 +65,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $content = loadFile('./questions/' . $collection);
     $words = loadWords($content);
     if (sizeof($words) > $num_choice) {
-      $mq = loadDefinitionQuestions($words, $n, $num_choice);
-      renderMultipleChoiceQuestions($mq);
+      $questions = null;
+      if ($_POST['test-type'] == 'sentence') {
+        $questions = loadSentenceQuestions($words, $n, $num_choice);
+      } else if ($_POST['test-type'] == 'definition') {
+        $questions = loadDefinitionQuestions($words, $n, $num_choice);
+      }
+      if ($questions != null) {
+        renderQuestions($questions);
+      }
     } else {
       echo '<h4>Not enough Data for composing the test</h4>';
     }
