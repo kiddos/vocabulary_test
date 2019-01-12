@@ -1,6 +1,14 @@
 <?php
 
+function maybeCreateQuestionDir() {
+  if (!file_exists('./questions')) {
+    mkdir('questions', 0777);
+  }
+}
+
 function loadFile(string $fpath) {
+  maybeCreateQuestionDir();
+
   $content = '';
   if (file_exists($fpath)) {
     $f = fopen($fpath, 'r');
@@ -11,6 +19,8 @@ function loadFile(string $fpath) {
 }
 
 function loadData() {
+  maybeCreateQuestionDir();
+
   $dir = new DirectoryIterator('./questions');
   foreach ($dir as $fileinfo) {
     if (!$fileinfo->isDot() && $fileinfo->isFile()) {
@@ -36,9 +46,7 @@ function getAllFiles() {
 }
 
 function writeData(array $words, string $path) {
-  if (!file_exists('./questions')) {
-    mkdir('questions', 0777);
-  }
+  maybeCreateQuestionDir();
 
   $f = fopen($path, 'w');
   if ($f) {
@@ -81,7 +89,7 @@ function loadWords(string $content) {
 
 function containsWord(string $word, array $words) {
   for ($i = 0; $i < sizeof($words); $i++) {
-    if ($words[$i]->w == word) {
+    if ($words[$i]->w == $word) {
       return true;
     }
   }
@@ -94,7 +102,7 @@ class DefinitionQuestion {
     $index = rand(0, sizeof($choice));
     array_splice($choice, $index, 0, $word->definition);
     $this->{'choices'} = $choice;
-    $this->{'word'} = $word;
+    $this->{'question'} = $word->w;
     $this->{'answer'} = $index;
   }
 }
@@ -120,6 +128,57 @@ function loadDefinitionQuestions(array $words, int $num,
 
     $q = new DefinitionQuestion(
       $words[$word_index], $choices);
+    array_push($questions, $q);
+    array_push($added, $word_index);
+  }
+  return $questions;
+}
+
+class SentenceQuestion {
+  public function __construct(Word $word, array $choices) {
+    shuffle($choice);
+    $s = strtolower($word->sentence);
+    $w = strtolower($word->w);
+    $position = strpos($s, $w);
+    $target = substr($word->sentence, $position, strlen($w));
+    $blank = str_repeat('_', strlen($w) + rand(0, strlen($w) / 2));
+    $sentence = str_replace($target, $blank, $word->sentence);
+
+    $index = rand(0, sizeof($choice));
+    $word_choice = array();
+    for ($i = 0; $i < sizeof($choices); $i++) {
+      array_push($word_choice, $choices[$i]->w);
+    }
+    array_splice($word_choice, $index, 0, $word->w);
+
+    $this->{'choices'} = $word_choice;
+    $this->{'question'} = $sentence;
+    $this->{'answer'} = $index;
+  }
+}
+
+function loadSentenceQuestions(array $words, int $num,
+  int $num_choice) {
+  $questions = array();
+  $added = array();
+  for ($i = 0; $i < min($num, sizeof($words)); $i++) {
+    $word_index = rand(0, sizeof($words) - 1);
+    while (in_array($word_index, $added) ||
+           $words[$word_index]->sentence == null) {
+      $word_index = rand(0, sizeof($words) - 1);
+    }
+
+    $choices = array();
+    for ($j = 0 ; $j < $num_choice - 1; $j++) {
+      $choice_index = rand(0, sizeof($words) - 1);
+      while ($choice_index == $word_index ||
+             $words[$choice_index]->sentence == null) {
+        $choice_index = rand(0, sizeof($words) - 1);
+      }
+      array_push($choices, $words[$choice_index]);
+    }
+
+    $q = new SentenceQuestion($words[$word_index], $choices);
     array_push($questions, $q);
     array_push($added, $word_index);
   }
