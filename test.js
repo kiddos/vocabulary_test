@@ -1,6 +1,6 @@
 (function() {
   document.getElementById('submit').addEventListener('click', function() {
-    let questions = document.getElementsByClassName('question');
+    let questions = document.getElementsByClassName('question-item');
     let done = true;
     let correct = 0;
     for (let i = 0; i < questions.length; ++i) {
