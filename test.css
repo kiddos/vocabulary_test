@@ -17,12 +17,12 @@
   margin-top: 10px;
 }
 
-.question {
+.question-item {
   margin-bottom: 10px;
   font-size: 20px;
 }
 
-.question .choices {
+.question-item .choices {
   display: inline-block;
   background: none;
   border: 1px solid lightseagreen;
@@ -33,23 +33,23 @@
   text-align: right;
 }
 
-.question .choices.error {
+.question-item .choices.error {
   border: 1px solid crimson;
 }
 
-.question .word {
-  display: inline-block;
+.question-item .question {
+  display: inline;
 }
 
-.question .answer {
+.question-item .answer {
   display: none;
 }
 
-.question .num {
+.question-item .num {
   margin-right: 10px;
 }
 
-.question .options {
+.question-item .options {
   margin-left: 60px;
 }
 
