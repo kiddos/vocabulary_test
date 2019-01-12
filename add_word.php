@@ -35,15 +35,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
   <div class="content">
-    <h4 class="header">Add a Word to Dictionary</h4>
-    <form action="add_word.php" method="POST">
-      <input type="text" name="word" id="word" placeholder="Word" autocomplete="off">
-      <input type="text" name="type" id="type" placeholder="Type (eg. noun, adjective, adverb, verb)" autocomplete="off">
-      <input type="text" name="definition" id="definition" placeholder="Definition" autocomplete="off">
-      <input type="text" name="sentence" id="sentence" placeholder="Place the word in a sentence" autocomplete="off">
+    <h2 class="header">Add a New Word to Dictionary</h2>
 
-      <div class="button">
-        <input type="submit" value="Add">
+    <form action="add_word.php" method="POST">
+      <input type="text" name="word" id="word" placeholder="Word" autocomplete="off" size="60">
+      <input type="text" name="type" id="type" placeholder="Type (eg. noun, adjective, adverb, verb)" autocomplete="off" size="60">
+      <input type="text" name="definition" id="definition" placeholder="Definition" autocomplete="off">
+      <textarea id="sentence" name="sentence" placeholder="Place the word in a sentence" cols="60" rows="6"></textarea>
+
+      <div class="button-panel">
+        <input type="submit" value="Add" class="button">
       </div>
     </form>
 

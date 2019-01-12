@@ -8,34 +8,9 @@
   margin: auto;
 }
 
-.content .header {
-  color: lightseagreen;
-}
-
 .content form {
-  width: 100%;
-  padding: 60px;
+  width: auto;
+  margin: 10px 0;
   display: flex;
   flex-direction: column;
-}
-
-.content input[type="text"] {
-  width: calc(100% - 60px);
-  padding: 5px 10px;
-  margin: 10px;
-  border: 1px solid lightseagreen;
-}
-
-.content .button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.content .button input[type="submit"] {
-  color: lightseagreen;
-  padding: 5px 10px;
-  border: 2px solid lightseagreen;
-  background: none;
-  border-radius: 5px;
 }
