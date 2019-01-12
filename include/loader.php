@@ -136,7 +136,7 @@ function loadDefinitionQuestions(array $words, int $num,
 
 class SentenceQuestion {
   public function __construct(Word $word, array $choices) {
-    shuffle($choice);
+    shuffle($choices);
     $s = strtolower($word->sentence);
     $w = strtolower($word->w);
     $position = strpos($s, $w);
@@ -144,7 +144,7 @@ class SentenceQuestion {
     $blank = str_repeat('_', strlen($w) + rand(0, strlen($w) / 2));
     $sentence = str_replace($target, $blank, $word->sentence);
 
-    $index = rand(0, sizeof($choice));
+    $index = rand(0, sizeof($choices));
     $word_choice = array();
     for ($i = 0; $i < sizeof($choices); $i++) {
       array_push($word_choice, $choices[$i]->w);
