@@ -15,19 +15,13 @@
   flex-direction: column;
 }
 
-.collection {
+.choice {
   text-align: center;
-  padding: 10px;
   font-size: 20px;
 }
 
-.collection .item {
-  margin: 10px;
-  font-size: 18px;
-  border-radius: 5px;
-  border: 2px solid lightseagreen;
-  padding: 5px 10px;
-  background: none;
+.option {
+  padding: 5px;
 }
 
 .questions {
