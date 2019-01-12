@@ -118,12 +118,15 @@ function loadDefinitionQuestions(array $words, int $num,
     }
 
     $choices = array();
+    $added_choices = array();
     for ($j = 0 ; $j < $num_choice - 1; $j++) {
       $choice_index = rand(0, sizeof($words) - 1);
-      while ($choice_index == $word_index) {
+      while ($choice_index == $word_index ||
+             in_array($choice_index, $added_choices)) {
         $choice_index = rand(0, sizeof($words) - 1);
       }
       array_push($choices, $words[$choice_index]->definition);
+      array_push($added_choices, $choice_index);
     }
 
     $q = new DefinitionQuestion(
@@ -169,13 +172,16 @@ function loadSentenceQuestions(array $words, int $num,
     }
 
     $choices = array();
+    $added_choices = array();
     for ($j = 0 ; $j < $num_choice - 1; $j++) {
       $choice_index = rand(0, sizeof($words) - 1);
       while ($choice_index == $word_index ||
+             in_array($choice_index, $added_choices) ||
              $words[$choice_index]->sentence == null) {
         $choice_index = rand(0, sizeof($words) - 1);
       }
       array_push($choices, $words[$choice_index]);
+      array_push($added_choices, $choice_index);
     }
 
     $q = new SentenceQuestion($words[$word_index], $choices);
